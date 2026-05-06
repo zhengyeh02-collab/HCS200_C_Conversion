@@ -1,0 +1,98 @@
+"File: startup1.asm  Assembler  Version HGASM0202      Page 1
+
+
+   1  0000              ;;--------------------------------------------------------------;;
+   2  0000              ;;    This file is part of the Holtek C Compiler V3 package     ;;
+   3  0000              ;;    For the initialization of static linkage variables        ;;
+   4  0000              ;;    Copyright (C) 2017 Holtek Semiconductor Inc.              ;;
+   5  0000              ;;    Version: 1.07 (Above IDE3000 V7.94)                       ;;
+   6  0000              ;;    Date:    2017/03/06                                        ;;
+   7  0000              ;;--------------------------------------------------------------;;
+   8  0000              
+   9  0000              acc equ [05h]
+  10  0000              mp equ [01h]
+  11  0000              iar equ [00h]
+  12  0000              bp equ [04h]
+  13  0000              z equ [0ah].2
+  14  0000              c equ [0ah].0
+  15  0000              public _main_startup
+  16  0000              @start   .SECTION 'CODE'
+  17  0000              _main_startup:
+  18  0000               ;;	CLR WDT2    ;;PD,TO flag will be clear. This line can be removed if a small number of global variables in C program are used.
+  19  0000  0F00     R  	Mov a, offset __initial_value_end
+  20  0001  1585        	dec acc
+  21  0002  0081        	MOV mp,A
+  22  0003  340A        	clr c
+  23  0004  0A00     R  	Sub a, offset __initial_value_begin
+  24  0005  380A        	snz c
+  25  0006  2800     R  	jmp startupend1
+  26  0007              L0004:
+  27  0007  0080     E  	mov ra,a
+  28  0008  2000     R  	CALL romdata_base1
+  29  0009  0080        	MOV iar,A
+  30  000A  1581        	dec mp
+  31  000B                ;;	CLR WDT   ;;PD,TO flag will be clear. This line can be removed if a small number of global variables in C program are used.
+  32  000B  1500     E  	deca ra
+  33  000C  1080     E  	sz ra
+  34  000D  2800     R  	jmp L0004 
+  35  000E              startupend1:
+  36  000E              ifndef Disable_Bit_Initial
+  37  000E              	MOV A,offset bitdatasec1_end
+  38  000E              	mov mp,A
+  39  000E              	dec mp
+  40  000E              	clr z
+  41  000E              	sub a,offset bitdatasec1_start
+  42  000E              	sz z
+  43  000E              	jmp startupend2
+  44  000E              L0005:
+  45  000E              	set iar
+  46  000E              	dec mp
+  47  000E              	sdz  acc
+  48  000E              	jmp L0005
+  49  000E              
+  50  000E              startupend2:
+  51  000E              	MOV A,offset bitdatasec0_end
+  52  000E              	mov mp,A
+  53  000E              	dec mp
+  54  000E              	clr z
+  55  000E              	sub a,offset bitdatasec0_start
+  56  000E              	sz z
+  57  000E              	jmp startupend3
+  58  000E              L0006:
+  59  000E              	clr iar
+"File: startup1.asm  Assembler  Version HGASM0202      Page 2
+
+  60  000E              	dec mp
+  61  000E              	sdz  acc
+  62  000E              	jmp L0006
+  63  000E              		
+  64  000E              startupend3:
+  65  000E              endif
+  66  000E              ROMBANK 0 @ROMDATA_BASE 
+  67  0000              @ROMDATA_BASE .SECTION  inpage com_l 'CODE'
+  68  0000              romdata_base1:
+  69  0000  0386        	ADDM A,[06H]
+  70  0001              
+  71  0000              @HCCINIT   .SECTION  COM_L 'DATA'
+  72  0000              __initial_value_begin:
+  73  0000              @HCCINIT  .SECTION COM_E 'DATA'
+  74  0000              __initial_value_end:
+  75  0000              
+  76  0000              
+  77  0000              @BITDATASEC1 .SECTION com_l 'DATA'  
+  78  0000              bitdatasec1_start:
+  79  0000              
+  80  0000              @BITDATASEC1 .SECTION com_e 'DATA'  
+  81  0000              bitdatasec1_end:
+  82  0000              
+  83  0000              @BITDATASEC .SECTION com_l 'DATA'  
+  84  0000              startup_value:
+  85  0000              bitdatasec0_start:
+  86  0000              
+  87  0000              @BITDATASEC .SECTION com_e 'DATA'  
+  88  0000              bitdatasec0_end:
+  89  0000              
+  90  0000              extern ra:byte
+
+
+        0 Errors, 0

@@ -1,0 +1,493 @@
+
+Linker Version 8.7.7.220718
+Input Object File: c:\users\asus\desktop\yeh\rf_control\txd19\txd19»»±±¾¹code\txd19_ubv1.2(hcs200)\bc68f3132\out\STARTUP1.OBJ
+Input Object File: c:\users\asus\desktop\yeh\rf_control\txd19\txd19»»±±¾¹code\txd19_ubv1.2(hcs200)\bc68f3132\out\TX_ENCODER.OBJ
+Input Object File: c:\users\asus\desktop\yeh\rf_control\txd19\txd19»»±±¾¹code\txd19_ubv1.2(hcs200)\bc68f3132\out\KEY.OBJ
+Input Object File: c:\users\asus\desktop\yeh\rf_control\txd19\txd19»»±±¾¹code\txd19_ubv1.2(hcs200)\bc68f3132\out\PACKET_FORMAT.OBJ
+Input Object File: c:\users\asus\desktop\yeh\rf_control\txd19\txd19»»±±¾¹code\txd19_ubv1.2(hcs200)\bc68f3132\out\APP_SET.OBJ
+Input Object File: c:\users\asus\desktop\yeh\rf_control\txd19\txd19»»±±¾¹code\txd19_ubv1.2(hcs200)\bc68f3132\out\HOPPING_SET.OBJ
+Input Object File: c:\users\asus\desktop\yeh\rf_control\txd19\txd19»»±±¾¹code\txd19_ubv1.2(hcs200)\bc68f3132\out\BC68F3132_SET.OBJ
+Input Object File: c:\users\asus\desktop\yeh\rf_control\txd19\txd19»»±±¾¹code\txd19_ubv1.2(hcs200)\bc68f3132\out\MAIN.OBJ
+Input Object File: c:\users\asus\desktop\yeh\rf_control\txd19\txd19»»±±¾¹code\txd19_ubv1.2(hcs200)\bc68f3132\out\VECTOR.OBJ
+
+Input Library File: C:\Program Files\Holtek MCU Development Tools\HT-IDE3000V8.x\LIB\LIBHOLTEKGCC.LIB
+Input Library File: C:\Program Files\Holtek MCU Development Tools\HT-IDE3000V8.x\LIB\v3_mrsc.lib
+
+
+     Bank    Start     End      Length     Class    AvgIns    Name
+     00h     0000h     0000h    0001h      CODE               @code (c:\users\asus\desktop\yeh\rf_control\txd19\txd19»»±±¾¹code\txd19_ubv1.2(hcs200)\bc68f3132\out\MAIN.OBJ)
+     00h     0004h     0007h    0004h      CODE               @intc_code (c:\users\asus\desktop\yeh\rf_control\txd19\txd19»»±±¾¹code\txd19_ubv1.2(hcs200)\bc68f3132\out\MAIN.OBJ)
+     00h     0008h     000ah    0003h      CODE               @VECTORT_INT1I (c:\users\asus\desktop\yeh\rf_control\txd19\txd19»»±±¾¹code\txd19_ubv1.2(hcs200)\bc68f3132\out\VECTOR.OBJ)
+     00h     000ch     000dh    0002h      CODE               @VECTORT_TB0I (c:\users\asus\desktop\yeh\rf_control\txd19\txd19»»±±¾¹code\txd19_ubv1.2(hcs200)\bc68f3132\out\VECTOR.OBJ)
+     00h     000eh     000fh    0002h      CODE               _LVDC_Init (c:\users\asus\desktop\yeh\rf_control\txd19\txd19»»±±¾¹code\txd19_ubv1.2(hcs200)\bc68f3132\out\APP_SET.OBJ)
+     00h     0010h     0013h    0004h      CODE               @time_code (c:\users\asus\desktop\yeh\rf_control\txd19\txd19»»±±¾¹code\txd19_ubv1.2(hcs200)\bc68f3132\out\MAIN.OBJ)
+     00h     0014h     0014h    0001h      CODE               @VECTORT_MF0I (c:\users\asus\desktop\yeh\rf_control\txd19\txd19»»±±¾¹code\txd19_ubv1.2(hcs200)\bc68f3132\out\VECTOR.OBJ)
+     00h     0018h     001ah    0003h      CODE               @VECTORT_MF1I (c:\users\asus\desktop\yeh\rf_control\txd19\txd19»»±±¾¹code\txd19_ubv1.2(hcs200)\bc68f3132\out\VECTOR.OBJ)
+     00h     001ch     001ch    0001h      CODE               @VECTORT_LVDI (c:\users\asus\desktop\yeh\rf_control\txd19\txd19»»±±¾¹code\txd19_ubv1.2(hcs200)\bc68f3132\out\VECTOR.OBJ)
+     00h     001dh     0029h    000dh      CODE               @ROMDATA_BASE (c:\users\asus\desktop\yeh\rf_control\txd19\txd19»»±±¾¹code\txd19_ubv1.2(hcs200)\bc68f3132\out\STARTUP1.OBJ)
+     00h     002ah     003ch    0013h      CODE               _Key_Init (c:\users\asus\desktop\yeh\rf_control\txd19\txd19»»±±¾¹code\txd19_ubv1.2(hcs200)\bc68f3132\out\KEY.OBJ)
+     00h     003dh     005fh    0023h      CODE               _CheckKeyStart (c:\users\asus\desktop\yeh\rf_control\txd19\txd19»»±±¾¹code\txd19_ubv1.2(hcs200)\bc68f3132\out\KEY.OBJ)
+     00h     0060h     0083h    0024h      CODE               _CheckKeyStatus (c:\users\asus\desktop\yeh\rf_control\txd19\txd19»»±±¾¹code\txd19_ubv1.2(hcs200)\bc68f3132\out\KEY.OBJ)
+     00h     0084h     0099h    0016h      CODE               _CRC_8 (c:\users\asus\desktop\yeh\rf_control\txd19\txd19»»±±¾¹code\txd19_ubv1.2(hcs200)\bc68f3132\out\PACKET_FORMAT.OBJ)
+     00h     009ah     00aeh    0015h      CODE               _Serial_CRC (c:\users\asus\desktop\yeh\rf_control\txd19\txd19»»±±¾¹code\txd19_ubv1.2(hcs200)\bc68f3132\out\PACKET_FORMAT.OBJ)
+     00h     00afh     00d5h    0027h      CODE               _Encryp_CRC (c:\users\asus\desktop\yeh\rf_control\txd19\txd19»»±±¾¹code\txd19_ubv1.2(hcs200)\bc68f3132\out\PACKET_FORMAT.OBJ)
+     00h     00d6h     00dah    0005h      CODE               _LVD_Init (c:\users\asus\desktop\yeh\rf_control\txd19\txd19»»±±¾¹code\txd19_ubv1.2(hcs200)\bc68f3132\out\APP_SET.OBJ)
+     00h     00dbh     00deh    0004h      CODE               _LED_Init (c:\users\asus\desktop\yeh\rf_control\txd19\txd19»»±±¾¹code\txd19_ubv1.2(hcs200)\bc68f3132\out\APP_SET.OBJ)
+     00h     00dfh     00e3h    0005h      CODE               _LoopCnt_Init (c:\users\asus\desktop\yeh\rf_control\txd19\txd19»»±±¾¹code\txd19_ubv1.2(hcs200)\bc68f3132\out\HOPPING_SET.OBJ)
+     00h     00e4h     00ech    0009h      CODE               _NLF_Init (c:\users\asus\desktop\yeh\rf_control\txd19\txd19»»±±¾¹code\txd19_ubv1.2(hcs200)\bc68f3132\out\HOPPING_SET.OBJ)
+     00h     00edh     00f1h    0005h      CODE               _produceKey (c:\users\asus\desktop\yeh\rf_control\txd19\txd19»»±±¾¹code\txd19_ubv1.2(hcs200)\bc68f3132\out\HOPPING_SET.OBJ)
+     00h     00f2h     00f7h    0006h      CODE               _Decrypt (c:\users\asus\desktop\yeh\rf_control\txd19\txd19»»±±¾¹code\txd19_ubv1.2(hcs200)\bc68f3132\out\HOPPING_SET.OBJ)
+     00h     00f8h     00fdh    0006h      CODE               _Encrypt (c:\users\asus\desktop\yeh\rf_control\txd19\txd19»»±±¾¹code\txd19_ubv1.2(hcs200)\bc68f3132\out\HOPPING_SET.OBJ)
+     00h     0100h     01efh    00f0h      CODE               CODE3 (c:\users\asus\desktop\yeh\rf_control\txd19\txd19»»±±¾¹code\txd19_ubv1.2(hcs200)\bc68f3132\out\TX_ENCODER.OBJ)
+     00h     01f0h     01feh    000fh      CODE               @start (c:\users\asus\desktop\yeh\rf_control\txd19\txd19»»±±¾¹code\txd19_ubv1.2(hcs200)\bc68f3132\out\MAIN.OBJ)
+     00h     0200h     02edh    00eeh      CODE               BC68F3132 (c:\users\asus\desktop\yeh\rf_control\txd19\txd19»»±±¾¹code\txd19_ubv1.2(hcs200)\bc68f3132\out\BC68F3132_SET.OBJ)
+     00h     02eeh     02f6h    0009h      CODE               _Key_To_IO (c:\users\asus\desktop\yeh\rf_control\txd19\txd19»»±±¾¹code\txd19_ubv1.2(hcs200)\bc68f3132\out\KEY.OBJ)
+     00h     02f7h     02ffh    0009h      CODE               _delay (c:\users\asus\desktop\yeh\rf_control\txd19\txd19»»±±¾¹code\txd19_ubv1.2(hcs200)\bc68f3132\out\KEY.OBJ)
+     00h     0300h     0315h    0016h      CODE               @crom (c:\users\asus\desktop\yeh\rf_control\txd19\txd19»»±±¾¹code\txd19_ubv1.2(hcs200)\bc68f3132\out\MAIN.OBJ)
+     00h     0316h     033bh    0026h      CODE               _HpKey_Init (c:\users\asus\desktop\yeh\rf_control\txd19\txd19»»±±¾¹code\txd19_ubv1.2(hcs200)\bc68f3132\out\HOPPING_SET.OBJ)
+     00h     033ch     036fh    0034h      CODE               _NLFSR_Init (c:\users\asus\desktop\yeh\rf_control\txd19\txd19»»±±¾¹code\txd19_ubv1.2(hcs200)\bc68f3132\out\HOPPING_SET.OBJ)
+     00h     0370h     037eh    000fh      CODE               _NLFSR_Read (c:\users\asus\desktop\yeh\rf_control\txd19\txd19»»±±¾¹code\txd19_ubv1.2(hcs200)\bc68f3132\out\HOPPING_SET.OBJ)
+     00h     037fh     038dh    000fh      CODE               _Hopping_Encryption (c:\users\asus\desktop\yeh\rf_control\txd19\txd19»»±±¾¹code\txd19_ubv1.2(hcs200)\bc68f3132\out\HOPPING_SET.OBJ)
+     00h     038eh     0399h    000ch      CODE               _RAM_CLR (c:\users\asus\desktop\yeh\rf_control\txd19\txd19»»±±¾¹code\txd19_ubv1.2(hcs200)\bc68f3132\out\MAIN.OBJ)
+     00h     039ah     039dh    0004h      CODE               _IO_Init (c:\users\asus\desktop\yeh\rf_control\txd19\txd19»»±±¾¹code\txd19_ubv1.2(hcs200)\bc68f3132\out\MAIN.OBJ)
+     00h     039eh     03aah    000dh      CODE               _TBx_Init (c:\users\asus\desktop\yeh\rf_control\txd19\txd19»»±±¾¹code\txd19_ubv1.2(hcs200)\bc68f3132\out\MAIN.OBJ)
+     00h     03abh     03bdh    0013h      CODE               _EEPROM_WR (c:\users\asus\desktop\yeh\rf_control\txd19\txd19»»±±¾¹code\txd19_ubv1.2(hcs200)\bc68f3132\out\MAIN.OBJ)
+     00h     03beh     03dah    001dh      CODE               _EEPROM_RD (c:\users\asus\desktop\yeh\rf_control\txd19\txd19»»±±¾¹code\txd19_ubv1.2(hcs200)\bc68f3132\out\MAIN.OBJ)
+     00h     03dbh     03fbh    0021h      CODE               _SYNC_Load (c:\users\asus\desktop\yeh\rf_control\txd19\txd19»»±±¾¹code\txd19_ubv1.2(hcs200)\bc68f3132\out\MAIN.OBJ)
+     00h     03fch     0404h    0009h      CODE               _SYNC_Save (c:\users\asus\desktop\yeh\rf_control\txd19\txd19»»±±¾¹code\txd19_ubv1.2(hcs200)\bc68f3132\out\MAIN.OBJ)
+     00h     0405h     0418h    0014h      CODE               _ChangeKeyStatus (c:\users\asus\desktop\yeh\rf_control\txd19\txd19»»±±¾¹code\txd19_ubv1.2(hcs200)\bc68f3132\out\MAIN.OBJ)
+     00h     0419h     0469h    0051h      CODE               _ReadRfdata (c:\users\asus\desktop\yeh\rf_control\txd19\txd19»»±±¾¹code\txd19_ubv1.2(hcs200)\bc68f3132\out\MAIN.OBJ)
+     00h     046ah     04a8h    003fh      CODE               _writedata (c:\users\asus\desktop\yeh\rf_control\txd19\txd19»»±±¾¹code\txd19_ubv1.2(hcs200)\bc68f3132\out\MAIN.OBJ)
+     00h     04a9h     04ach    0004h      CODE               _intc_init (c:\users\asus\desktop\yeh\rf_control\txd19\txd19»»±±¾¹code\txd19_ubv1.2(hcs200)\bc68f3132\out\MAIN.OBJ)
+     00h     04adh     04c7h    001bh      CODE               _freqfinit (c:\users\asus\desktop\yeh\rf_control\txd19\txd19»»±±¾¹code\txd19_ubv1.2(hcs200)\bc68f3132\out\MAIN.OBJ)
+     00h     04c8h     05afh    00e8h      CODE               _main (c:\users\asus\desktop\yeh\rf_control\txd19\txd19»»±±¾¹code\txd19_ubv1.2(hcs200)\bc68f3132\out\MAIN.OBJ)
+     00h     05b0h     05c4h    0015h      CODE               _freqeeprom (c:\users\asus\desktop\yeh\rf_control\txd19\txd19»»±±¾¹code\txd19_ubv1.2(hcs200)\bc68f3132\out\MAIN.OBJ)
+     00h     05c5h     06d2h    010eh      CODE               _decode_pulse (c:\users\asus\desktop\yeh\rf_control\txd19\txd19»»±±¾¹code\txd19_ubv1.2(hcs200)\bc68f3132\out\MAIN.OBJ)
+     00h     06d3h     06ech    001ah      CODE               _time (c:\users\asus\desktop\yeh\rf_control\txd19\txd19»»±±¾¹code\txd19_ubv1.2(hcs200)\bc68f3132\out\MAIN.OBJ)
+     00h     06edh     071fh    0033h      CODE               _intc (c:\users\asus\desktop\yeh\rf_control\txd19\txd19»»±±¾¹code\txd19_ubv1.2(hcs200)\bc68f3132\out\MAIN.OBJ)
+     00h     0720h     0728h    0009h      CODE               _CROM2PROM (CROM2PROM)
+     00h     07fch     07fdh    0002h      CODE               HOP_USER_DISC_TABLE (c:\users\asus\desktop\yeh\rf_control\txd19\txd19»»±±¾¹code\txd19_ubv1.2(hcs200)\bc68f3132\out\BC68F3132_SET.OBJ)
+     00h     0080h     008bh    000ch      DATA     0         @HCCINIT (c:\users\asus\desktop\yeh\rf_control\txd19\txd19»»±±¾¹code\txd19_ubv1.2(hcs200)\bc68f3132\out\STARTUP1.OBJ)
+     00h     008ch     008eh    0003h      DATA     0.3333    @BITDATASEC (c:\users\asus\desktop\yeh\rf_control\txd19\txd19»»±±¾¹code\txd19_ubv1.2(hcs200)\bc68f3132\out\STARTUP1.OBJ)
+     00h     008fh     00bdh    002fh      DATA     3.4468    DATA (c:\users\asus\desktop\yeh\rf_control\txd19\txd19»»±±¾¹code\txd19_ubv1.2(hcs200)\bc68f3132\out\TX_ENCODER.OBJ)
+     00h     00beh     00e6h    0029h      DATA     1.7073    @HCCINIT0 (c:\users\asus\desktop\yeh\rf_control\txd19\txd19»»±±¾¹code\txd19_ubv1.2(hcs200)\bc68f3132\out\KEY.OBJ)
+     00h     00e7h     00e7h    0001h      DATA     93        @data_ra (C:\Program Files\Holtek MCU Development Tools\HT-IDE3000V8.x\LIB\LIBHOLTEKGCC.LIB)
+     00h     00e8h     00e8h    0001h      DATA     6         @data_rb (C:\Program Files\Holtek MCU Development Tools\HT-IDE3000V8.x\LIB\LIBHOLTEKGCC.LIB)
+     00h     00e9h     00e9h    0001h      DATA     5         @data_rc (C:\Program Files\Holtek MCU Development Tools\HT-IDE3000V8.x\LIB\LIBHOLTEKGCC.LIB)
+     00h     00eah     00eah    0001h      DATA     36        @data_rb04 (isr:ra~rh)
+     00h     00ebh     00ebh    0001h      DATA     30        @data_rc04 (isr:ra~rh)
+     00h     00ech     00ech    0001h      DATA     27        @data_rd04 (isr:ra~rh)
+     00h     00edh     00edh    0001h      DATA     12        @data_re04 (isr:ra~rh)
+     00h     00eeh     00eeh    0001h      DATA     2         @data_r110 (isr:ra~rh)
+     00h     00efh     00efh    0001h      DATA     2         @data_r210 (isr:ra~rh)
+     00h     00f0h     00f0h    0001h      DATA     2         @data_r104 (isr:ra~rh)
+     00h     00f1h     00f1h    0001h      DATA     2         @data_r204 (isr:ra~rh)
+     00h     00f2h     00f2h    0001h      DATA     2         @data_r304 (isr:ra~rh)
+     00h     00f3h     00f3h    0001h      DATA     2         @data_r404 (isr:ra~rh)
+     00h     00f4h     00f4h    0001h      DATA     2         @data_r504 (isr:ra~rh)
+     00h     00f5h     00f5h    0001h      DATA     2         @data_ra04 (isr:ra~rh)
+
+     Local Sections
+
+     Bank    Start     End      Length     Class    AvgIns    Name
+     00h     00fbh     00fbh    0000h      LOCAL    0         _Serial_CRC (c:\users\asus\desktop\yeh\rf_control\txd19\txd19»»±±¾¹code\txd19_ubv1.2(hcs200)\bc68f3132\out\PACKET_FORMAT.OBJ)
+     00h     00fah     00fah    0001h      LOCAL    2         _CRC_8 (c:\users\asus\desktop\yeh\rf_control\txd19\txd19»»±±¾¹code\txd19_ubv1.2(hcs200)\bc68f3132\out\PACKET_FORMAT.OBJ)
+     00h     00fbh     00fbh    0000h      LOCAL    0         _Encryp_CRC (c:\users\asus\desktop\yeh\rf_control\txd19\txd19»»±±¾¹code\txd19_ubv1.2(hcs200)\bc68f3132\out\PACKET_FORMAT.OBJ)
+     00h     00fah     00fah    0000h      LOCAL    0         _READ_I2C_MULTI_BYTE (c:\users\asus\desktop\yeh\rf_control\txd19\txd19»»±±¾¹code\txd19_ubv1.2(hcs200)\bc68f3132\out\BC68F3132_SET.OBJ)
+     00h     00fah     00fah    0000h      LOCAL    0         I2C_START (c:\users\asus\desktop\yeh\rf_control\txd19\txd19»»±±¾¹code\txd19_ubv1.2(hcs200)\bc68f3132\out\BC68F3132_SET.OBJ)
+     00h     00fah     00fah    0000h      LOCAL    0         I2C_SENDBYTE (c:\users\asus\desktop\yeh\rf_control\txd19\txd19»»±±¾¹code\txd19_ubv1.2(hcs200)\bc68f3132\out\BC68F3132_SET.OBJ)
+     00h     00fah     00fah    0000h      LOCAL    0         I2C_GETACK (c:\users\asus\desktop\yeh\rf_control\txd19\txd19»»±±¾¹code\txd19_ubv1.2(hcs200)\bc68f3132\out\BC68F3132_SET.OBJ)
+     00h     00fah     00fah    0000h      LOCAL    0         I2C_GETBYTE (c:\users\asus\desktop\yeh\rf_control\txd19\txd19»»±±¾¹code\txd19_ubv1.2(hcs200)\bc68f3132\out\BC68F3132_SET.OBJ)
+     00h     00fah     00fah    0000h      LOCAL    0         I2C_SENDACK (c:\users\asus\desktop\yeh\rf_control\txd19\txd19»»±±¾¹code\txd19_ubv1.2(hcs200)\bc68f3132\out\BC68F3132_SET.OBJ)
+     00h     00fah     00fah    0000h      LOCAL    0         I2C_STOP (c:\users\asus\desktop\yeh\rf_control\txd19\txd19»»±±¾¹code\txd19_ubv1.2(hcs200)\bc68f3132\out\BC68F3132_SET.OBJ)
+     00h     00feh     00feh    0000h      LOCAL    0         @dummy (c:\users\asus\desktop\yeh\rf_control\txd19\txd19»»±±¾¹code\txd19_ubv1.2(hcs200)\bc68f3132\out\MAIN.OBJ)
+     00h     00feh     00feh    0000h      LOCAL    0         _main (c:\users\asus\desktop\yeh\rf_control\txd19\txd19»»±±¾¹code\txd19_ubv1.2(hcs200)\bc68f3132\out\MAIN.OBJ)
+     00h     00fah     00fah    0000h      LOCAL    0         _RAM_CLR (c:\users\asus\desktop\yeh\rf_control\txd19\txd19»»±±¾¹code\txd19_ubv1.2(hcs200)\bc68f3132\out\MAIN.OBJ)
+     00h     00fch     00fdh    0002h      LOCAL    6         _ReadRfdata (c:\users\asus\desktop\yeh\rf_control\txd19\txd19»»±±¾¹code\txd19_ubv1.2(hcs200)\bc68f3132\out\MAIN.OBJ)
+     00h     00fah     00fbh    0002h      LOCAL    1.5       _EEPROM_RD (c:\users\asus\desktop\yeh\rf_control\txd19\txd19»»±±¾¹code\txd19_ubv1.2(hcs200)\bc68f3132\out\MAIN.OBJ)
+     00h     00fch     00fch    0000h      LOCAL    0         _SYNC_Load (c:\users\asus\desktop\yeh\rf_control\txd19\txd19»»±±¾¹code\txd19_ubv1.2(hcs200)\bc68f3132\out\MAIN.OBJ)
+     00h     00fah     00fbh    0002h      LOCAL    5.5       _EEPROM_WR (c:\users\asus\desktop\yeh\rf_control\txd19\txd19»»±±¾¹code\txd19_ubv1.2(hcs200)\bc68f3132\out\MAIN.OBJ)
+     00h     00fbh     00fbh    0000h      LOCAL    0         _produceKey (c:\users\asus\desktop\yeh\rf_control\txd19\txd19»»±±¾¹code\txd19_ubv1.2(hcs200)\bc68f3132\out\HOPPING_SET.OBJ)
+     00h     00fah     00fah    0000h      LOCAL    0         _LoopCnt_Init (c:\users\asus\desktop\yeh\rf_control\txd19\txd19»»±±¾¹code\txd19_ubv1.2(hcs200)\bc68f3132\out\HOPPING_SET.OBJ)
+     00h     00fah     00fah    0000h      LOCAL    0         _NLF_Init (c:\users\asus\desktop\yeh\rf_control\txd19\txd19»»±±¾¹code\txd19_ubv1.2(hcs200)\bc68f3132\out\HOPPING_SET.OBJ)
+     00h     00fah     00fah    0001h      LOCAL    2         _HpKey_Init (c:\users\asus\desktop\yeh\rf_control\txd19\txd19»»±±¾¹code\txd19_ubv1.2(hcs200)\bc68f3132\out\HOPPING_SET.OBJ)
+     00h     00fah     00fah    0000h      LOCAL    0         _IO_Init (c:\users\asus\desktop\yeh\rf_control\txd19\txd19»»±±¾¹code\txd19_ubv1.2(hcs200)\bc68f3132\out\MAIN.OBJ)
+     00h     00fah     00fah    0000h      LOCAL    0         _Key_Init (c:\users\asus\desktop\yeh\rf_control\txd19\txd19»»±±¾¹code\txd19_ubv1.2(hcs200)\bc68f3132\out\KEY.OBJ)
+     00h     00fah     00fah    0000h      LOCAL    0         _Key_To_IO (c:\users\asus\desktop\yeh\rf_control\txd19\txd19»»±±¾¹code\txd19_ubv1.2(hcs200)\bc68f3132\out\KEY.OBJ)
+     00h     00fah     00fah    0000h      LOCAL    0         _LVD_Init (c:\users\asus\desktop\yeh\rf_control\txd19\txd19»»±±¾¹code\txd19_ubv1.2(hcs200)\bc68f3132\out\APP_SET.OBJ)
+     00h     00fah     00fah    0000h      LOCAL    0         _LVDC_Init (c:\users\asus\desktop\yeh\rf_control\txd19\txd19»»±±¾¹code\txd19_ubv1.2(hcs200)\bc68f3132\out\APP_SET.OBJ)
+     00h     00fah     00fah    0000h      LOCAL    0         _LED_Init (c:\users\asus\desktop\yeh\rf_control\txd19\txd19»»±±¾¹code\txd19_ubv1.2(hcs200)\bc68f3132\out\APP_SET.OBJ)
+     00h     00fah     00fah    0000h      LOCAL    0         _freqfinit (c:\users\asus\desktop\yeh\rf_control\txd19\txd19»»±±¾¹code\txd19_ubv1.2(hcs200)\bc68f3132\out\MAIN.OBJ)
+     00h     00fah     00fah    0000h      LOCAL    0         _I2C_INI (c:\users\asus\desktop\yeh\rf_control\txd19\txd19»»±±¾¹code\txd19_ubv1.2(hcs200)\bc68f3132\out\BC68F3132_SET.OBJ)
+     00h     00fah     00fah    0000h      LOCAL    0         _I2C_XT_WK (c:\users\asus\desktop\yeh\rf_control\txd19\txd19»»±±¾¹code\txd19_ubv1.2(hcs200)\bc68f3132\out\BC68F3132_SET.OBJ)
+     00h     00fah     00fah    0000h      LOCAL    0         DELAY_10US (c:\users\asus\desktop\yeh\rf_control\txd19\txd19»»±±¾¹code\txd19_ubv1.2(hcs200)\bc68f3132\out\BC68F3132_SET.OBJ)
+     00h     00fah     00fah    0000h      LOCAL    0         DELAY_1MS (c:\users\asus\desktop\yeh\rf_control\txd19\txd19»»±±¾¹code\txd19_ubv1.2(hcs200)\bc68f3132\out\BC68F3132_SET.OBJ)
+     00h     00fah     00fah    0000h      LOCAL    0         _I2C_SCK_TOGGLE (c:\users\asus\desktop\yeh\rf_control\txd19\txd19»»±±¾¹code\txd19_ubv1.2(hcs200)\bc68f3132\out\BC68F3132_SET.OBJ)
+     00h     00fah     00fah    0000h      LOCAL    0         _WRITE_I2C_MULTI_BYTE (c:\users\asus\desktop\yeh\rf_control\txd19\txd19»»±±¾¹code\txd19_ubv1.2(hcs200)\bc68f3132\out\BC68F3132_SET.OBJ)
+     00h     00fah     00fah    0000h      LOCAL    0         _I2C_SDA_TOGGLE (c:\users\asus\desktop\yeh\rf_control\txd19\txd19»»±±¾¹code\txd19_ubv1.2(hcs200)\bc68f3132\out\BC68F3132_SET.OBJ)
+     00h     00fah     00fah    0000h      LOCAL    0         _intc_init (c:\users\asus\desktop\yeh\rf_control\txd19\txd19»»±±¾¹code\txd19_ubv1.2(hcs200)\bc68f3132\out\MAIN.OBJ)
+     00h     00fah     00fah    0000h      LOCAL    0         _TBx_Init (c:\users\asus\desktop\yeh\rf_control\txd19\txd19»»±±¾¹code\txd19_ubv1.2(hcs200)\bc68f3132\out\MAIN.OBJ)
+     00h     00fah     00fah    0000h      LOCAL    0         _ChangeKeyStatus (c:\users\asus\desktop\yeh\rf_control\txd19\txd19»»±±¾¹code\txd19_ubv1.2(hcs200)\bc68f3132\out\MAIN.OBJ)
+     00h     00fch     00fch    0000h      LOCAL    0         _writedata (c:\users\asus\desktop\yeh\rf_control\txd19\txd19»»±±¾¹code\txd19_ubv1.2(hcs200)\bc68f3132\out\MAIN.OBJ)
+     00h     00f6h     00f6h    0000h      LOCAL    0         _Crom2Prom (CROM2PROM)
+     00h     00fbh     00fbh    0001h      LOCAL    2         _CheckKeyStatus (c:\users\asus\desktop\yeh\rf_control\txd19\txd19»»±±¾¹code\txd19_ubv1.2(hcs200)\bc68f3132\out\KEY.OBJ)
+     00h     00fah     00fah    0001h      LOCAL    6         _CheckKeyStart (c:\users\asus\desktop\yeh\rf_control\txd19\txd19»»±±¾¹code\txd19_ubv1.2(hcs200)\bc68f3132\out\KEY.OBJ)
+     00h     00fch     00fch    0000h      LOCAL    0         _Hopping_Encryption (c:\users\asus\desktop\yeh\rf_control\txd19\txd19»»±±¾¹code\txd19_ubv1.2(hcs200)\bc68f3132\out\HOPPING_SET.OBJ)
+     00h     00fah     00fbh    0002h      LOCAL    2.5       _NLFSR_Init (c:\users\asus\desktop\yeh\rf_control\txd19\txd19»»±±¾¹code\txd19_ubv1.2(hcs200)\bc68f3132\out\HOPPING_SET.OBJ)
+     00h     00fah     00fah    0000h      LOCAL    0         _Encrypt (c:\users\asus\desktop\yeh\rf_control\txd19\txd19»»±±¾¹code\txd19_ubv1.2(hcs200)\bc68f3132\out\HOPPING_SET.OBJ)
+     00h     00fah     00fah    0000h      LOCAL    0         _NLFSR_Read (c:\users\asus\desktop\yeh\rf_control\txd19\txd19»»±±¾¹code\txd19_ubv1.2(hcs200)\bc68f3132\out\HOPPING_SET.OBJ)
+     00h     00fch     00fch    0000h      LOCAL    0         _SYNC_Save (c:\users\asus\desktop\yeh\rf_control\txd19\txd19»»±±¾¹code\txd19_ubv1.2(hcs200)\bc68f3132\out\MAIN.OBJ)
+     00h     00fch     00fch    0000h      LOCAL    0         _freqeeprom (c:\users\asus\desktop\yeh\rf_control\txd19\txd19»»±±¾¹code\txd19_ubv1.2(hcs200)\bc68f3132\out\MAIN.OBJ)
+     00h     00fah     00fah    0000h      LOCAL    0         @dummy16 (c:\users\asus\desktop\yeh\rf_control\txd19\txd19»»±±¾¹code\txd19_ubv1.2(hcs200)\bc68f3132\out\MAIN.OBJ)
+     00h     00fah     00fah    0000h      LOCAL    0         _time (c:\users\asus\desktop\yeh\rf_control\txd19\txd19»»±±¾¹code\txd19_ubv1.2(hcs200)\bc68f3132\out\MAIN.OBJ)
+     00h     00fah     00fah    0000h      LOCAL    0         @dummy4 (c:\users\asus\desktop\yeh\rf_control\txd19\txd19»»±±¾¹code\txd19_ubv1.2(hcs200)\bc68f3132\out\MAIN.OBJ)
+     00h     00fah     00fah    0000h      LOCAL    0         _intc (c:\users\asus\desktop\yeh\rf_control\txd19\txd19»»±±¾¹code\txd19_ubv1.2(hcs200)\bc68f3132\out\MAIN.OBJ)
+     00h     00f6h     00f9h    0004h      LOCAL    8.75      _decode_pulse (c:\users\asus\desktop\yeh\rf_control\txd19\txd19»»±±¾¹code\txd19_ubv1.2(hcs200)\bc68f3132\out\MAIN.OBJ)
+
+     Indepentent Local Sections
+
+     Bank    Start     End      Length     Class    AvgIns    Name
+     00h     00fah     00fah    0001h      ILOCAL   3         _delay (c:\users\asus\desktop\yeh\rf_control\txd19\txd19»»±±¾¹code\txd19_ubv1.2(hcs200)\bc68f3132\out\KEY.OBJ)
+     00h     00fah     00fah    0000h      ILOCAL   0         _Decrypt (c:\users\asus\desktop\yeh\rf_control\txd19\txd19»»±±¾¹code\txd19_ubv1.2(hcs200)\bc68f3132\out\HOPPING_SET.OBJ)
+     00h     00fah     00fah    0000h      ILOCAL   0         DELAY_100US (c:\users\asus\desktop\yeh\rf_control\txd19\txd19»»±±¾¹code\txd19_ubv1.2(hcs200)\bc68f3132\out\BC68F3132_SET.OBJ)
+
+     Public Symbols Information
+     Address            Public by Name
+     02b6h              DELAY_100US
+     02b1h              DELAY_10US
+     02bbh              DELAY_1MS
+     0272h              I2C_SENDBYTE
+     025ah              I2C_START
+     0263h              I2C_STOP
+     0100h              RF_ISR
+     0081h              _Askcount
+     00cdh              _CRC_4BIT
+     0084h              _CRC_8
+     00ceh              _CRC_8BIT
+     02c8h              _CTM0_INIT
+     02d4h              _CTM1_INIT
+     0405h              _ChangeKeyStatus
+     003dh              _CheckKeyStart
+     0060h              _CheckKeyStatus
+     0721h              _Crom2Prom
+     0720h              _Crom2PromNext
+     01b0h              _DATA1_PRO
+     01d0h              _DATA_PRO
+     00b2h              _DISC
+     02e0h              _DISC_INIT
+     00f2h              _Decrypt
+     03beh              _EEPROM_RD
+     03abh              _EEPROM_WR
+     00afh              _Encryp_CRC
+     00f8h              _Encrypt
+     00d0h              _FLAG1
+     00cfh              _FLAG2
+     0080h              _Fskcount
+     037fh              _Hopping_Encryption
+     0316h              _HpKey_Init
+     0239h              _I2C_INI
+     0247h              _I2C_SCK_TOGGLE
+     0251h              _I2C_SDA_TOGGLE
+     023eh              _I2C_XT_WK
+     039ah              _IO_Init
+     0300h              _KEYDATA
+     00d3h              _K_R
+     00c1h              _KeyCurrentStatus
+     00c3h              _KeyDebounceTime
+     00c2h              _KeyRepeatTime
+     00bfh              _Key_IO
+     002ah              _Key_Init
+     02eeh              _Key_To_IO
+     00dbh              _LED_Init
+     000eh              _LVDC_Init
+     00d6h              _LVD_Init
+     00dfh              _LoopCnt_Init
+     00b4h              _MBUF
+     00e2h              _MBUFCOPY
+     00a8h              _MFG
+     00a0h              _MRFDATA
+     00beh              _Matrix_IO
+     033ch              _NLFSR_Init
+     0370h              _NLFSR_Read
+     00e4h              _NLF_Init
+     038eh              _RAM_CLR
+     0219h              _READ_I2C_MULTI_BYTE
+     0419h              _ReadRfdata
+     00a4h              _SERIAL_NUMBER
+     00b0h              _SYMBOL_TIME
+     03dbh              _SYNC_Load
+     03fch              _SYNC_Save
+     009ah              _Serial_CRC
+     039eh              _TBx_Init
+     00a1h              _T_FRAME_COUNT
+     00e1h              _T_GUARD_COUNT
+     0200h              _WRITE_I2C_MULTI_BYTE
+     0084h              _bit_index
+     0083h              _bit_index_2
+     00d9h              _cBACW
+     00d7h              _cMaxLongPress
+     00d1h              _cSync
+     00dfh              _cTimer500ms
+     0088h              _count_high
+     0089h              _count_low
+     0087h              _count_reset
+     0085h              _count_sleep
+     05c5h              _decode_pulse
+     00f6h              _decode_pulse_2
+     02f7h              _delay
+     008dh[0]           _f_Encryp_CRC_init
+     008eh[0]           _fcheckkey
+     008ch[0]           _fkeyrelse
+     05b0h              _freqeeprom
+     04adh              _freqfinit
+     00e6h              _i
+     06edh              _intc
+     04a9h              _intc_init
+     008eh[3]           _key_changemode_state
+     00c4h              _mCRCData
+     04c8h              _main
+     01f0h              _main_startup
+     008eh[2]           _new_data_flag
+     0082h              _preamble_count
+     008eh[1]           _preamble_detected
+     00edh              _produceKey
+     008ah              _pulse_width_high
+     008bh              _pulse_width_low
+     00dbh              _tBACW
+     00ddh              _tCount
+     00c5h              _tSecretKey
+     06d3h              _time
+     046ah              _writedata
+     00c0h              _x
+     00f0h              r104
+     00eeh              r110
+     00f1h              r204
+     00efh              r210
+     00f2h              r304
+     00f3h              r404
+     00f4h              r504
+     00e7h              ra
+     00f5h              ra04
+     00e8h              rb
+     00eah              rb04
+     00e9h              rc
+     00ebh              rc04
+     00ech              rd04
+     00edh              re04
+
+     Address            Public by Value
+     000eh              _LVDC_Init
+     002ah              _Key_Init
+     003dh              _CheckKeyStart
+     0060h              _CheckKeyStatus
+     0080h              _Fskcount
+     0081h              _Askcount
+     0082h              _preamble_count
+     0083h              _bit_index_2
+     0084h              _CRC_8
+     0084h              _bit_index
+     0085h              _count_sleep
+     0087h              _count_reset
+     0088h              _count_high
+     0089h              _count_low
+     008ah              _pulse_width_high
+     008bh              _pulse_width_low
+     009ah              _Serial_CRC
+     00a0h              _MRFDATA
+     00a1h              _T_FRAME_COUNT
+     00a4h              _SERIAL_NUMBER
+     00a8h              _MFG
+     00afh              _Encryp_CRC
+     00b0h              _SYMBOL_TIME
+     00b2h              _DISC
+     00b4h              _MBUF
+     00beh              _Matrix_IO
+     00bfh              _Key_IO
+     00c0h              _x
+     00c1h              _KeyCurrentStatus
+     00c2h              _KeyRepeatTime
+     00c3h              _KeyDebounceTime
+     00c4h              _mCRCData
+     00c5h              _tSecretKey
+     00cdh              _CRC_4BIT
+     00ceh              _CRC_8BIT
+     00cfh              _FLAG2
+     00d0h              _FLAG1
+     00d1h              _cSync
+     00d3h              _K_R
+     00d6h              _LVD_Init
+     00d7h              _cMaxLongPress
+     00d9h              _cBACW
+     00dbh              _LED_Init
+     00dbh              _tBACW
+     00ddh              _tCount
+     00dfh              _LoopCnt_Init
+     00dfh              _cTimer500ms
+     00e1h              _T_GUARD_COUNT
+     00e2h              _MBUFCOPY
+     00e4h              _NLF_Init
+     00e6h              _i
+     00e7h              ra
+     00e8h              rb
+     00e9h              rc
+     00eah              rb04
+     00ebh              rc04
+     00ech              rd04
+     00edh              _produceKey
+     00edh              re04
+     00eeh              r110
+     00efh              r210
+     00f0h              r104
+     00f1h              r204
+     00f2h              r304
+     00f2h              _Decrypt
+     00f3h              r404
+     00f4h              r504
+     00f5h              ra04
+     00f6h              _decode_pulse_2
+     00f8h              _Encrypt
+     0100h              RF_ISR
+     01b0h              _DATA1_PRO
+     01d0h              _DATA_PRO
+     01f0h              _main_startup
+     0200h              _WRITE_I2C_MULTI_BYTE
+     0219h              _READ_I2C_MULTI_BYTE
+     0239h              _I2C_INI
+     023eh              _I2C_XT_WK
+     0247h              _I2C_SCK_TOGGLE
+     0251h              _I2C_SDA_TOGGLE
+     025ah              I2C_START
+     0263h              I2C_STOP
+     0272h              I2C_SENDBYTE
+     02b1h              DELAY_10US
+     02b6h              DELAY_100US
+     02bbh              DELAY_1MS
+     02c8h              _CTM0_INIT
+     02d4h              _CTM1_INIT
+     02e0h              _DISC_INIT
+     02eeh              _Key_To_IO
+     02f7h              _delay
+     0300h              _KEYDATA
+     0316h              _HpKey_Init
+     033ch              _NLFSR_Init
+     0370h              _NLFSR_Read
+     037fh              _Hopping_Encryption
+     038eh              _RAM_CLR
+     039ah              _IO_Init
+     039eh              _TBx_Init
+     03abh              _EEPROM_WR
+     03beh              _EEPROM_RD
+     03dbh              _SYNC_Load
+     03fch              _SYNC_Save
+     0405h              _ChangeKeyStatus
+     0419h              _ReadRfdata
+     008ch[0]           _fkeyrelse
+     008dh[0]           _f_Encryp_CRC_init
+     046ah              _writedata
+     008eh[0]           _fcheckkey
+     008eh[1]           _preamble_detected
+     008eh[2]           _new_data_flag
+     008eh[3]           _key_changemode_state
+     04a9h              _intc_init
+     04adh              _freqfinit
+     04c8h              _main
+     05b0h              _freqeeprom
+     05c5h              _decode_pulse
+     06d3h              _time
+     06edh              _intc
+     0720h              _Crom2PromNext
+     0721h              _Crom2Prom
+
+
+ROM Usage Statistics
+     Size      Used     Percentage
+     0800h     0720h    89%
+
+RAM Usage Statistics
+    Bank      Size      Used     Percentage
+     00h       0080h     007eh    98%
+     Total     0080h     007eh    98%
+
+Use Stack Count
+_Serial_CRC: 1
+_Encryp_CRC: 1
+_READ_I2C_MULTI_BYTE: 1
+_main: 2
+_freqeeprom: 1
+_time: 0
+_intc: 2
+
+Call Tree
+    _Serial_CRC
+        _CRC_8 (0)
+    _Encryp_CRC
+        _CRC_8 (0)
+    _READ_I2C_MULTI_BYTE
+        I2C_START (0)
+        I2C_SENDBYTE (0)
+        I2C_GETACK (0)
+        I2C_GETBYTE (0)
+        I2C_SENDACK (0)
+        I2C_STOP (0)
+    @dummy
+        _main (0)
+            _RAM_CLR (1)
+            _ReadRfdata (1)
+                _EEPROM_RD (2)
+            _SYNC_Load (1)
+                _EEPROM_RD (2)
+                _EEPROM_WR (2)
+            _produceKey (1)
+                _LoopCnt_Init (2)
+                _NLF_Init (2)
+                _HpKey_Init (2)
+            _IO_Init (1)
+            _Key_Init (1)
+                _Key_To_IO (2)
+            _LVD_Init (1)
+                _LVDC_Init (2)
+            _LED_Init (1)
+            _freqfinit (1)
+            _I2C_INI (1)
+            _I2C_XT_WK (1)
+                DELAY_10US (2)
+                DELAY_1MS (2)
+            _I2C_SCK_TOGGLE (1)
+                DELAY_10US (2)
+            _WRITE_I2C_MULTI_BYTE (1)
+                I2C_START (2)
+                I2C_SENDBYTE (2)
+                I2C_GETACK (2)
+                I2C_STOP (2)
+            _I2C_SDA_TOGGLE (1)
+                DELAY_10US (2)
+                DELAY_1MS (2)
+            _intc_init (1)
+            _TBx_Init (1)
+            _ChangeKeyStatus (1)
+            _writedata (1)
+                _Crom2Prom (2)
+                _EEPROM_WR (2)
+            _CheckKeyStatus (1)
+                _CheckKeyStart (2)
+            _Hopping_Encryption (1)
+                _LoopCnt_Init (2)
+                _HpKey_Init (2)
+                _NLFSR_Init (2)
+                _Encrypt (2)
+                _NLFSR_Read (2)
+            _SYNC_Save (1)
+                _EEPROM_WR (2)
+    _freqeeprom
+        _Crom2Prom (0)
+        _EEPROM_WR (0)
+    @dummy16
+        _time (0)
+    @dummy4
+        _intc (0)
+            _decode_pulse (1)
+                _Crom2Prom (2)
+
+HLINK: Program entry point at section '@code' (address 0) of file 'c:\users\asus\desktop\yeh\rf_control\txd19\txd19»»±±¾¹code\txd19_ubv1.2(hcs200)\bc68f3132\out\MAIN.OBJ'
+
+Total 0 error(s), Total 0 Warning(s)

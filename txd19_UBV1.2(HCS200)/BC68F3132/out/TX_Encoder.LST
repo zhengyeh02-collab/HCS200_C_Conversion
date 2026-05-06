@@ -1,0 +1,609 @@
+"File: TX_Encoder.asm  Assembler  Version 2.98      Page 1
+
+
+   1  0000              INCLUDE TX_Encoder.inc
+
+
+
+
+   2  0000              
+   3  0000              ;******************************************************************
+   4  0000              ;******************************************************************
+   5  0000              PUBLIC	 RF_ISR
+   6  0000              PUBLIC	 _DATA_PRO
+   7  0000              PUBLIC   _MRFDATA
+   8  0000              PUBLIC	 _T_FRAME_COUNT					;increase
+   9  0000              public   _DATA1_PRO
+  10  0000              
+  11  0000              extern	 _T_GUARD_COUNT		 :byte		;increase
+  12  0000              extern	 _FLAG1          	 :byte
+  13  0000              extern   _FLAG2				 :byte
+  14  0000              extern   _K_R            	 :byte
+  15  0000              extern 	 _MFG     			 :byte
+  16  0000              extern   _SERIAL_NUMBER		 :byte    
+  17  0000              extern   _CRC_4BIT			 :byte 
+  18  0000              
+  19  0000              ;******************************************************************
+  20  0000              ;******************************************************************
+  21  0000              RAMBank 0  DATA
+  22  0000              DATA	    .SECTION  	'data'
+  23  0000              
+  24  0000  00          mTxBufSN_0      DB      ?       
+  25  0001  00          mTxBufSN_1		DB		?		
+  26  0002  00          mTxBufSN_2     	DB      ?
+  27  0003  00          mTxBufSN_3		DB		?		;RF serial Number 28bit  
+  28  0004              
+  29  0004  00          mTxBuf1     	DB      ?
+  30  0005  00          mTxBuf2     	DB      ?
+  31  0006  00          mTxBuf3     	DB      ?
+  32  0007  00          mTxBuf4     	DB      ?
+  33  0008  00          mTxBuf5     	DB      ?
+  34  0009              
+  35  0009  00          mTxBits     	DB      ?		;data bit number
+  36  000A  00          mTxCnt      	DB      ?		;µ¥¦PTE
+  37  000B              
+  38  000B  00          mTemp			DB		?
+  39  000C              
+  40  000C  00          Crypto_counter	DB		?
+  41  000D              
+  42  000D  00          mTxStep			DB		?
+  43  000E              
+  44  000E  00          fZeroOne		dbit
+  45  000F              
+  46  000F  00          mSTS1			DB		?		;Stack res
+  47  0010  00          mACC1			DB		?
+  48  0011              ;==============================================
+  49  0011              ;=============================================
+  50  0011              
+  51  0011  00          _MRFDATA	    DB		? 
+  52  0012              
+  53  0012              
+  54  0012  00          _T_FRAME_COUNT	    DB		? 		;increase
+  55  0013              
+"File: TX_Encoder.asm  Assembler  Version 2.98      Page 2
+
+  56  0013              ;==============================================
+  57  0013              
+  58  0013              ;==============================================
+  59  0013              ;==============================================
+  60  0013              if(Leading_code==3)
+  61  0013              TX_PRE_HIGH 	EQU     1  
+  62  0013              TX_PRE_LOW  	EQU     31  
+  63  0013              endif
+  64  0013              
+  65  0013              if(Leading_code==4)    
+  66  0013              TX_PRE_HIGH 	EQU     1  
+  67  0013              TX_PRE_LOW  	EQU     1 
+  68  0013              endif
+  69  0013              ;==============================================
+  70  0013              ;==============================================
+  71  0013              if(Start_Format==3)
+  72  0013              TX_STR_P_LOW 	EQU     1  
+  73  0013              TX_STR_LOW  	EQU     8  
+  74  0013              endif
+  75  0013              ;==============================================
+  76  0013              ;==============================================
+  77  0013              if(Bit_Format==2)
+  78  0013              TX_1_HIGH   	EQU     1  
+  79  0013              TX_1_LOW    	EQU     2  
+  80  0013              
+  81  0013              TX_0_HIGH   	EQU     2  
+  82  0013              TX_0_LOW    	EQU     1  
+  83  0013              endif
+  84  0013              ;==============================================
+  85  0013              ;==============================================
+  86  0013              IF(END_Format==4)
+  87  0013              TX_END_HIGH		EQU     2
+  88  0013              TX_END_LOW		EQU     2
+  89  0013              ENDIF
+  90  0013              
+  91  0013              
+  92  0013              ;--------------------------
+  93  0013              INIT_STEP		EQU     0
+  94  0013              PRE_LOW			EQU     1
+  95  0013              PRE_HIGH		EQU     2
+  96  0013              STR_STEP		EQU     3
+  97  0013              STR_END			EQU     4
+  98  0013              ENCHIGH_STEP	EQU		5
+  99  0013              ENCLOW_STEP		EQU		6 
+ 100  0013              FIXHIGH_STEP	EQU     7
+ 101  0013              FIXLOW_STEP    	EQU     8
+ 102  0013              ;--------------------------
+ 103  0013              
+ 104  0013              ;******************************************************************
+ 105  0013              ;******************************************************************
+ 106  0013              TX_LOW      MACRO
+ 107  0013                          CLR     TX_OUTPUT 
+ 108  0013                          ;CLR     TX_OUTPUT_DATA 
+ 109  0013              ;            CLR		pb7
+ 110  0013              ENDM
+ 111  0013                          
+ 112  0013              TX_HIGH     MACRO
+ 113  0013              		    SET     TX_OUTPUT 
+ 114  0013                          ;SET     TX_OUTPUT_DATA
+ 115  0013              ;			set		PB7
+"File: TX_Encoder.asm  Assembler  Version 2.98      Page 3
+
+ 116  0013              ENDM
+ 117  0013              
+ 118  0013              
+ 119  0000              CODE3	    .SECTION  PAGE	'code'
+ 120  0000              ;******************************************************************  
+ 121  0000              ;------------------------------------------------------------------      
+ 122  0000              RF_ISR:
+ 123  0000              			
+ 124  0000              
+ 125  0000  3AA6        			SNZ		RF_TMf
+ 126  0001  0004        			RETI						
+ 127  0002  36A6        			CLR		RF_TMf
+ 128  0003              
+ 129  0003              ;------------------------------------	
+ 130  0003              ;increase : 2021/04
+ 131  0003              ;brief    : frame loop mechanism of handling error  
+ 132  0003              ;------------------------------------	
+ 133  0003  1080     R  			SZ		_T_FRAME_COUNT
+ 134  0004              			
+ 135  0004  2800     R  			jmp		$+2
+ 136  0005  2800     R  			jmp		TxEnd
+ 137  0006              ;------------------------------------			
+ 138  0006              			
+ 139  0006              	
+ 140  0006  0705        			MOV		A,ACC
+ 141  0007  0080     R  			MOV     mACC1,A   
+ 142  0008  070A                    MOV     A,STATUS
+ 143  0009  0080     R              MOV     mSTS1,A
+ 144  000A              
+ 145  000A  0001        			CLR     WDT
+ 146  000B                        
+ 147  000B  3800     E              SNZ     _FLAG1.2    ;;fTxBusy
+ 148  000C  2800     R  	        JMP     TMR_Ext
+ 149  000D              	        
+ 150  000D  3800     E  	        snz		_FLAG1.3    ;;fDataOk
+ 151  000E  2800     R  	        jmp		TMR_Ext
+ 152  000F              	        
+ 153  000F  0700     R  	        MOV     A,mTxStep	;
+ 154  0010  0386        	        ADDM    A,PCL
+ 155  0011  2800     R  	        JMP     TxInit      ;0
+ 156  0012  2800     R  	        JMP     TxPreLow    ;1        
+ 157  0013  2800     R  	        JMP     TxPreHigh   ;2       
+ 158  0014  2800     R  	        JMP     TxStart     ;3
+ 159  0015  2800     R  	        JMP     TxStarLow   ;4
+ 160  0016  2800     R  	        JMP		TxEncryHigh	;5  	
+ 161  0017  2800     R  	        JMP		TxEncryLow	;6  	
+ 162  0018  2800     R  	        JMP     TxFixedHi   ;7   
+ 163  0019  2800     R  	        JMP     TxFixedLow  ;8   
+ 164  001A  2800     R  	        JMP     TxEndHIGH   ;9
+ 165  001B  2800     R  	        JMP		TxEndLOW	;10
+ 166  001C  2800     R    	        JMP		TxEnd		;11
+ 167  001D                          
+ 168  001D                  TMR_Ext:
+ 169  001D              	TMR_Ext1:
+ 170  001D  0700     R  			mov		a,mSTS1
+ 171  001E  008A        			mov		STATUS,A
+ 172  001F  0700     R  			mov		a,mACC1
+ 173  0020  0085        			mov		ACC,A
+ 174  0021  0004        			reti      
+ 175  0022              TxInit:               
+"File: TX_Encoder.asm  Assembler  Version 2.98      Page 4
+
+ 176  0022  0F21                    MOV     A,Encrypted_C+1     ;Encrypted Code
+ 177  0023  0080     R              MOV     mTxBits,A   
+ 178  0024                                      
+ 179  0024                          TX_HIGH
+ 180  0025              
+ 181  0025  0F01                    MOV     A,TX_PRE_HIGH
+ 182  0026  0080     R              MOV     mTxCnt,A
+ 183  0027              if(Leading_code==4)            
+ 184  0027  0F0C                    MOV     A,12
+ 185  0028  0080     R              MOV     Crypto_counter,A
+ 186  0029              	
+ 187  0029              endif             
+ 188  0029                         
+ 189  0029                          
+ 190  0029  1480     R              INC     mTxStep
+ 191  002A                          
+ 192  002A  2800     R              JMP     TMR_Ext 
+ 193  002B                                   
+ 194  002B              ;******************************************************************
+ 195  002B              ;Leading 
+ 196  002B              ;------------------------------------------------------------------            
+ 197  002B              if(Leading_code==3)                 
+ 198  002B              TxPreLow:
+ 199  002B                          SDZ     mTxCnt
+ 200  002B                          JMP     TMR_Ext 
+ 201  002B                          TX_LOW    
+ 202  002B                          MOV     A,TX_PRE_LOW   
+ 203  002B                          MOV     mTxCnt,A
+ 204  002B                          INC     mTxStep
+ 205  002B                          INC     mTxStep
+ 206  002B                          JMP     TMR_Ext  
+ 207  002B                          
+ 208  002B              TxPreHigh:  
+ 209  002B              			JMP     TMR_Ext          
+ 210  002B              endif
+ 211  002B              
+ 212  002B              if(Leading_code==4)                 
+ 213  002B              TxPreLow:
+ 214  002B  1780     R              SDZ     mTxCnt
+ 215  002C  2800     R              JMP     TMR_Ext 
+ 216  002D                          TX_LOW
+ 217  002E                          
+ 218  002E  1780     R              SDZ     Crypto_counter
+ 219  002F  2800     R              JMP     $+5
+ 220  0030                  
+ 221  0030  0F01                    MOV     A,TX_PRE_LOW   
+ 222  0031  0080     R              MOV     mTxCnt,A
+ 223  0032  1480     R              INC     mTxStep
+ 224  0033  2800     R              JMP     $+3
+ 225  0034  0F01                    MOV     A,TX_PRE_HIGH
+ 226  0035  0080     R              MOV     mTxCnt,A
+ 227  0036                           
+ 228  0036  1480     R              INC     mTxStep
+ 229  0037  2800     R              JMP     TMR_Ext              
+ 230  0038              
+ 231  0038              TxPreHigh:
+ 232  0038  1780     R              SDZ     mTxCnt
+ 233  0039  2800     R              JMP     TMR_Ext 
+ 234  003A                          
+ 235  003A                          TX_HIGH
+"File: TX_Encoder.asm  Assembler  Version 2.98      Page 5
+
+ 236  003B                          
+ 237  003B  0F01                    MOV     A,TX_PRE_HIGH
+ 238  003C  0080     R              MOV     mTxCnt,A    
+ 239  003D  1580     R              DEC     mTxStep
+ 240  003E  2800     R              JMP     TMR_Ext   
+ 241  003F              endif
+ 242  003F              
+ 243  003F              ;******************************************************************
+ 244  003F              ;START    
+ 245  003F              if(Start_Format==1)
+ 246  003F              			
+ 247  003F              			
+ 248  003F              TxStart:
+ 249  003F              
+ 250  003F              TxStarLow:			
+ 251  003F              			jmp		TxEncryHigh	
+ 252  003F              else  
+ 253  003F                
+ 254  003F              TxStart:
+ 255  003F  1780     R              SDZ     mTxCnt
+ 256  0040  2800     R              JMP     TMR_Ext 
+ 257  0041              
+ 258  0041  0F01                    MOV     A,TX_STR_P_LOW   
+ 259  0042  0080     R              MOV     mTxCnt,A
+ 260  0043                          
+ 261  0043  1480     R              INC     mTxStep
+ 262  0044  2800     R              JMP     TMR_Ext  
+ 263  0045                  
+ 264  0045              TxStarLow:
+ 265  0045  1780     R              SDZ     mTxCnt
+ 266  0046  2800     R              JMP     TMR_Ext        
+ 267  0047                          
+ 268  0047                          TX_LOW
+ 269  0048                          
+ 270  0048  0F08                    MOV     A,TX_STR_LOW  
+ 271  0049  0080     R              MOV     mTxCnt,A
+ 272  004A                          
+ 273  004A  1480     R              INC     mTxStep
+ 274  004B  2800     R              JMP     TMR_Ext  
+ 275  004C                          
+ 276  004C              endif             
+ 277  004C              ;******************************************************************
+ 278  004C              ;Encrypted Code              
+ 279  004C              TxEncryHigh:         	
+ 280  004C                   
+ 281  004C              
+ 282  004C  1780     R              SDZ     mTxCnt
+ 283  004D  2800     R              JMP     TMR_Ext        
+ 284  004E              
+ 285  004E  1780     R              SDZ     mTxBits
+ 286  004F  2800     R              JMP     $+2
+ 287  0050  2800     R  			JMP		TxCodeHiPre
+ 288  0051              
+ 289  0051                          TX_HIGH            
+ 290  0052              
+ 291  0052  340A                    CLR     C    
+ 292  0053  1B80     R              RRC     mTxBuf5                              
+ 293  0054  1B80     R              RRC     mTxBuf4      
+ 294  0055  1B80     R              RRC     mTxBuf3
+ 295  0056  1B80     R              RRC     mTxBuf2
+"File: TX_Encoder.asm  Assembler  Version 2.98      Page 6
+
+ 296  0057              
+ 297  0057  380A                    SNZ     C
+ 298  0058  2800     R              JMP     PrcTx0Hi
+ 299  0059  2800     R              JMP		PrxTx1Hi
+ 300  005A              
+ 301  005A              TxCodeHiPre:
+ 302  005A  1480     R              inc     mTxStep
+ 303  005B  1480     R              inc		mTxStep
+ 304  005C                          
+ 305  005C  0F22                    MOV     A,Fixed_C+STATUS_Bit      ;Fixed Code Data
+ 306  005D  0080     R              MOV     mTxBits,A 
+ 307  005E                          
+ 308  005E                          TX_HIGH
+ 309  005F                          
+ 310  005F  340A                    CLR		C
+ 311  0060  1B80     R              RRC     mTxBuf1            
+ 312  0061  1B80     R              RRC     mTxBufSN_0
+ 313  0062  1B80     R              RRC     mTxBufSN_1
+ 314  0063  1B80     R              RRC     mTxBufSN_2
+ 315  0064  1B80     R              RRC     mTxBufSN_3      
+ 316  0065              
+ 317  0065              
+ 318  0065  380A                    SNZ     C
+ 319  0066  2800     R              JMP     PrcTx0Hi
+ 320  0067  2800     R              jmp		PrxTx1Hi			
+ 321  0068              			            			             
+ 322  0068              TxFixedHi:      
+ 323  0068  1780     R  			SDZ     mTxCnt
+ 324  0069  2800     R              JMP     TMR_Ext        
+ 325  006A              
+ 326  006A  1780     R              SDZ     mTxBits
+ 327  006B  2800     R              JMP     TxCodeHi1  
+ 328  006C  1480     R              INC		mTxStep
+ 329  006D  1480     R              INC		mTxStep
+ 330  006E              	
+ 331  006E              	
+ 332  006E              	IF(END_Format==4)            
+ 333  006E                          MOV		A,TX_END_HIGH
+ 334  006E                          MOV		mTxCnt,A
+ 335  006E                          TX_HIGH
+ 336  006E              	ENDIF   
+ 337  006E              	IF(END_Format==1)            	
+ 338  006E              			jmp	TxEnd
+ 339  006E              	ENDIF      
+ 340  006E  2800     R              JMP		TMR_Ext
+ 341  006F              	TxCodeHi1:
+ 342  006F              			TX_HIGH
+ 343  0070  340A        			CLR		C
+ 344  0071              			
+ 345  0071  1B80     R            RRC		mTxBuf1			
+ 346  0072  1B80     R              RRC     mTxBufSN_0			
+ 347  0073  1B80     R              RRC     mTxBufSN_1
+ 348  0074  1B80     R              RRC     mTxBufSN_2			
+ 349  0075  1B80     R              RRC		mTxBufSN_3
+ 350  0076              
+ 351  0076                          
+ 352  0076  380A                    SNZ     C
+ 353  0077  2800     R              JMP     PrcTx0Hi
+ 354  0078  2800     R              jmp		PrxTx1Hi         			          
+ 355  0079                                
+"File: TX_Encoder.asm  Assembler  Version 2.98      Page 7
+
+ 356  0079              TxEncryLow:     	
+ 357  0079                    
+ 358  0079              TxFixedLow:    
+ 359  0079  1780     R              SDZ     mTxCnt
+ 360  007A  2800     R              JMP     TMR_Ext        
+ 361  007B                          
+ 362  007B                          TX_LOW
+ 363  007C                          
+ 364  007C  3800     R              SNZ     fZeroOne
+ 365  007D  2800     R              JMP     Prc0Low
+ 366  007E                          
+ 367  007E              Prc1Low:    
+ 368  007E  0F02                    MOV     A,TX_1_LOW
+ 369  007F  2800     R              JMP     PrcLowC
+ 370  0080              
+ 371  0080              Prc0Low:            
+ 372  0080  0F01                    MOV     A,TX_0_LOW
+ 373  0081              
+ 374  0081              PrcLowC:
+ 375  0081  0080     R              MOV     mTxCnt,A
+ 376  0082                          
+ 377  0082  0700     R              MOV		A,mTxStep
+ 378  0083  0C08                    XOR		A,FIXLOW_STEP
+ 379  0084  3D0A                    SZ		Z
+ 380  0085  2800     R  			JMP		$+2
+ 381  0086  2800     R  			JMP		PrcLowC1	
+ 382  0087  0F07                    MOV     A,FIXHIGH_STEP
+ 383  0088  0080     R              MOV     mTxStep,A
+ 384  0089  2800     R              JMP     TMR_Ext 
+ 385  008A              	PrcLowC1:
+ 386  008A  0F05                    MOV     A,ENCHIGH_STEP
+ 387  008B  0080     R              MOV     mTxStep,A
+ 388  008C  2800     R              JMP     TMR_Ext        
+ 389  008D              
+ 390  008D              
+ 391  008D              PrxTx1Hi:
+ 392  008D  3000     R              SET     fZeroOne
+ 393  008E                          
+ 394  008E  0F01                    MOV     A,TX_1_HIGH
+ 395  008F  2800     R              JMP     PrcHiC
+ 396  0090              
+ 397  0090              PrcTx0Hi:                   
+ 398  0090  3400     R              CLR     fZeroOne
+ 399  0091              
+ 400  0091  0F02                    MOV     A,TX_0_HIGH
+ 401  0092              PrcHiC:
+ 402  0092  0080     R              MOV     mTxCnt,A
+ 403  0093                          
+ 404  0093  0700     R              MOV		A,mTxStep
+ 405  0094  0C07                    XOR		A,FIXHIGH_STEP
+ 406  0095  3D0A                    SZ		Z
+ 407  0096  2800     R  			JMP		$+2
+ 408  0097  2800     R  			JMP		PrcHiC1	
+ 409  0098  0F08                    MOV     A,FIXLOW_STEP
+ 410  0099  0080     R              MOV     mTxStep,A
+ 411  009A  2800     R              JMP     TMR_Ext 
+ 412  009B              	PrcHiC1:
+ 413  009B  0F06                    MOV     A,ENCLOW_STEP
+ 414  009C  0080     R              MOV     mTxStep,A
+ 415  009D  2800     R              JMP     TMR_Ext                                                    
+"File: TX_Encoder.asm  Assembler  Version 2.98      Page 8
+
+ 416  009E                
+ 417  009E              TxEndHIGH:
+ 418  009E              	IF(END_Format==1)
+ 419  009E              			CLR		mTxCnt
+ 420  009E              			JMP		TxEnd
+ 421  009E              	TxEndLOW:
+ 422  009E              			JMP		TxEnd
+ 423  009E              					
+ 424  009E              	ENDIF
+ 425  009E              
+ 426  009E              ;------------------------------------	
+ 427  009E              ;increase : 2021/04
+ 428  009E              ;brief    : guard_time 
+ 429  009E              ;------------------------------------	
+ 430  009E              IF(END_Format==2)					
+ 431  009E  1480     R  			INC     mTxStep
+ 432  009F  0700     E              MOV     A,_T_GUARD_COUNT 
+ 433  00A0  0080     R              MOV     mTxCnt,A
+ 434  00A1                          TX_LOW
+ 435  00A2  2800     R              JMP     TMR_Ext    
+ 436  00A3              TxEndLOW:     
+ 437  00A3  1780     R          	SDZ		mTxCnt
+ 438  00A4  2800     R              JMP     TMR_Ext  
+ 439  00A5  2800     R  			JMP		TxEnd 
+ 440  00A6                          
+ 441  00A6              	 ENDIF
+ 442  00A6              ;-----------------------------------
+ 443  00A6              IF(END_Format==4)		
+ 444  00A6                          SDZ     mTxCnt
+ 445  00A6                          JMP     TMR_Ext        
+ 446  00A6                          
+ 447  00A6                          TX_LOW
+ 448  00A6                          MOV		A,TX_END_LOW
+ 449  00A6                          MOV		mTxCnt,A
+ 450  00A6                          INC		mTxStep
+ 451  00A6                          JMP		TMR_Ext
+ 452  00A6                         
+ 453  00A6              TxEndLOW:
+ 454  00A6              			SDZ		mTxCnt
+ 455  00A6              			JMP		TMR_Ext            
+ 456  00A6              		IF	0			
+ 457  00A6                         	TX_HIGH
+ 458  00A6                         	INC		mTxStep
+ 459  00A6                         	JMP		TMR_Ext	
+ 460  00A6              		ELSE
+ 461  00A6              			JMP		TxEnd
+ 462  00A6              	    ENDIF       	
+ 463  00A6              	ENDIF
+ 464  00A6              	
+ 465  00A6              	      		      
+ 466  00A6              TxEnd:
+ 467  00A6                      TX_LOW   
+ 468  00A7              
+ 469  00A7  1F00     R          CLR     mTxStep
+ 470  00A8                      
+ 471  00A8              ;-------------------------------------          
+ 472  00A8              ;increase : 2021/04
+ 473  00A8              ;brief    : frame loop/ BACW 
+ 474  00A8              ;------------------------------------
+ 475  00A8  1080     R          SZ		_T_FRAME_COUNT
+"File: TX_Encoder.asm  Assembler  Version 2.98      Page 9
+
+ 476  00A9  1580     R          DEC 	_T_FRAME_COUNT  ;resend
+ 477  00AA              ;        CLR     _FLAG1.6
+ 478  00AA  3400     E          CLR     _FLAG1.7  	 	;fTimerBACW         
+ 479  00AB                      
+ 480  00AB  35A8                clr		ct0on		 	;
+ 481  00AC  31AE                set		ct1on		    ;
+ 482  00AD              ;-------------------------------------    
+ 483  00AD                        
+ 484  00AD  3400     E          CLR     _FLAG1.2   		;fTxBusy    
+ 485  00AE  3400     E          CLR		_FLAG1.3   		;fDataOk 
+ 486  00AF  2800     R          JMP     TMR_Ext                 
+ 487  00B0              ;******************************************************************
+ 488  00B0              ;****************************************************************** 
+ 489  00B0              ;HT_Enhanced_DATA_PRO	  .SECTION  PARA	'code'        
+ 490  00B0              _DATA1_PRO:
+ 491  00B0  1F00     R              CLR     mTxStep
+ 492  00B1  0700     E  			MOV		A,_K_R[3]
+ 493  00B2  0080     R  			MOV		mTxBuf5,A
+ 494  00B3  0700     E  			MOV		A,_K_R[2]
+ 495  00B4  0080     R  			MOV		mTxBuf4,A					
+ 496  00B5  0700     E  			MOV		A,_K_R[1]
+ 497  00B6  0080     R  			MOV		mTxBuf3,A	
+ 498  00B7  0700     E  			MOV		A,_K_R[0]
+ 499  00B8  0080     R  			MOV		mTxBuf2,A				;_K_R[]?32bit?[?K??u
+ 500  00B9              
+ 501  00B9  0700     E  			MOV		A,_SERIAL_NUMBER[3]
+ 502  00BA  0080     R  			MOV		mTxBufSN_0,A		
+ 503  00BB              
+ 504  00BB  0700     E  			MOV		A,_SERIAL_NUMBER[2]
+ 505  00BC  0080     R  			MOV		mTxBufSN_1,A	
+ 506  00BD              
+ 507  00BD  0700     E  			MOV		A,_SERIAL_NUMBER[1]
+ 508  00BE  0080     R  			MOV		mTxBufSN_2,A				
+ 509  00BF              
+ 510  00BF  0700     E  			MOV		A,_SERIAL_NUMBER[0]
+ 511  00C0  0080     R  			MOV		mTxBufSN_3,A	
+ 512  00C1              
+ 513  00C1              ;            CLR     mTxBufSN_0				;
+ 514  00C1  1180     E              SWAP    _CRC_4BIT       
+ 515  00C2  0700     E  			MOV		A,_CRC_4BIT
+ 516  00C3  3400     R  			CLR     mTxBufSN_0.4
+ 517  00C4  3400     R  			CLR     mTxBufSN_0.5
+ 518  00C5  3400     R  			CLR     mTxBufSN_0.6
+ 519  00C6  3400     R  			CLR     mTxBufSN_0.7
+ 520  00C7  0380     R  			ADDM    A,mTxBufSN_0			;
+ 521  00C8  1180     E  			SWAP    _CRC_4BIT
+ 522  00C9              
+ 523  00C9  1F00     R  			clr		mTxBuf1					; low battary
+ 524  00CA  3C00     E  			SZ		_FLAG2.0
+ 525  00CB  3000     R  			set		mTxBuf1.0
+ 526  00CC  3C00     E  			SZ		_FLAG2.1				; repeat  frame
+ 527  00CD  3000     R  			set		mTxBuf1.1
+ 528  00CE              			
+ 529  00CE  3000     E  			SET		_FLAG1.3    ;;fDataOk										
+ 530  00CF  0003        			RET	 
+ 531  00D0                                
+ 532  00D0              ;******************************************************************
+ 533  00D0              ;****************************************************************** 
+ 534  00D0              ;Data_Pro	  .SECTION  PARA	'code'        
+ 535  00D0              _DATA_PRO:
+"File: TX_Encoder.asm  Assembler  Version 2.98      Page 10
+
+ 536  00D0  1F00     R              CLR     mTxStep
+ 537  00D1  0700     E  			MOV		A,_K_R[3]
+ 538  00D2  0080     R  			MOV		mTxBuf5,A
+ 539  00D3  0700     E  			MOV		A,_K_R[2]
+ 540  00D4  0080     R  			MOV		mTxBuf4,A					
+ 541  00D5  0700     E  			MOV		A,_K_R[1]
+ 542  00D6  0080     R  			MOV		mTxBuf3,A	
+ 543  00D7  0700     E  			MOV		A,_K_R[0]
+ 544  00D8  0080     R  			MOV		mTxBuf2,A				;_K_R[]?32bit?[?K??u
+ 545  00D9              
+ 546  00D9  0700     E  			MOV		A,_SERIAL_NUMBER[3]
+ 547  00DA  0080     R  			MOV		mTxBufSN_0,A		
+ 548  00DB              
+ 549  00DB  0700     E  			MOV		A,_SERIAL_NUMBER[2]
+ 550  00DC  0080     R  			MOV		mTxBufSN_1,A	
+ 551  00DD              
+ 552  00DD  0700     E  			MOV		A,_SERIAL_NUMBER[1]
+ 553  00DE  0080     R  			MOV		mTxBufSN_2,A				
+ 554  00DF              
+ 555  00DF  0700     E  			MOV		A,_SERIAL_NUMBER[0]
+ 556  00E0  0080     R  			MOV		mTxBufSN_3,A	
+ 557  00E1              
+ 558  00E1              ;            CLR     mTxBufSN_0				;
+ 559  00E1  1180     R              SWAP    _MRFDATA        
+ 560  00E2  0700     R  			MOV		A,_MRFDATA
+ 561  00E3  3400     R  			CLR     mTxBufSN_0.4
+ 562  00E4  3400     R  			CLR     mTxBufSN_0.5		
+ 563  00E5  3400     R  			CLR     mTxBufSN_0.6
+ 564  00E6  3400     R  			CLR     mTxBufSN_0.7
+ 565  00E7  0380     R  			ADDM    A,mTxBufSN_0			;
+ 566  00E8  1180     R  			SWAP    _MRFDATA
+ 567  00E9              
+ 568  00E9  1F00     R  			clr		mTxBuf1
+ 569  00EA  3C00     E  			SZ		_FLAG2.0			; low battary
+ 570  00EB  3000     R  			set		mTxBuf1.0
+ 571  00EC  3C00     E  			SZ		_FLAG2.1			; repeat  frame
+ 572  00ED  3000     R  			set		mTxBuf1.1
+ 573  00EE              
+ 574  00EE              			
+ 575  00EE              Data_Pro_EXT:
+ 576  00EE  3000     E  			SET		_FLAG1.3    ;;fDataOk										
+ 577  00EF  0003        			RET		
+ 578  00F0              			
+ 579  00F0              					
+ 580  00F0              
+ 581  00F0              
+
+
+        0 Errors, 0 Warnings

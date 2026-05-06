@@ -1,0 +1,462 @@
+"File: BC68F3132_Set.asm  Assembler  Version 2.98      Page 1
+
+
+   1  0000              INCLUDE "BC68F3132_Set.inc"
+
+
+
+
+
+
+   2  0002              
+   3  0002              
+   4  0002              ;==========================================================================
+   5  0002              RAMBank 0  DATA
+   6  0000              DATA       .SECTION     'DATA'
+   7  0000  0002[       mTemp1		DB	2 DUP(?)
+            00
+            ]
+   8  0002              
+   9  0002              PUBLIC   _SERIAL_NUMBER
+  10  0002              PUBLIC   _MFG
+  11  0002              PUBLIC   _SYMBOL_TIME
+  12  0002              PUBLIC	 _DISC
+  13  0002              PUBLIC  _MBUF
+  14  0002              
+  15  0002  0004[       _SERIAL_NUMBER  DB      4 dup(?)
+            00
+            ]
+  16  0006  0008[       _MFG            DB      8 dup(?)
+            00
+            ]
+  17  000E  0002[       _SYMBOL_TIME    DB      2 dup(?) 
+            00
+            ]
+  18  0010  0002[       _DISC			DB		2 dup(?)
+            00
+            ]
+  19  0012  000A[       _MBUF		    DB	   10 dup(?)
+            00
+            ]
+  20  001C              
+  21  0000              BC68F3132    .SECTION  PAGE	'code'
+  22  0000              ;==========================================================================
+  23  0000              
+  24  0000              ;==========================================================================
+  25  0000              ;==========================================================================
+  26  0000              ; input    : mBuf1f[0]=addr. ,mBuf1f[1]=length, mBuf1f[9:2]=data
+  27  0000              ; template : MP0, mTemp1[0], mTemp1[1]
+  28  0000              ;==========================================================================
+  29  0000              public	_Write_I2C_Multi_Byte
+  30  0000              _Write_I2C_Multi_Byte	proc
+  31  0000  2000     R  			CALL	I2C_Start
+  32  0001              			
+  33  0001  0F42        			MOV		A,42h
+  34  0002  2000     R  			CALL	I2C_SendByte
+  35  0003  2000     R  			CALL	I2C_GetAck
+  36  0004  3C0A        			SZ		C
+  37  0005  2800     R  			JMP		wimb_Fail
+  38  0006              			
+  39  0006  0700     R  			MOV		A,_MBUF[0]
+  40  0007  2000     R  			CALL	I2C_SendByte
+  41  0008  2000     R  			CALL	I2C_GetAck
+"File: BC68F3132_Set.asm  Assembler  Version 2.98      Page 2
+
+  42  0009  3C0A        			SZ		C
+  43  000A  2800     R  			JMP		wimb_Fail
+  44  000B              
+  45  000B  0700     R  			MOV		A,_MBUF[1]
+  46  000C  0080     R  			MOV		_MBUF[1],A
+  47  000D  0F00     R  			MOV		A,OFFSET _MBUF[2]
+  48  000E  0081        			MOV		MP0,A
+  49  000F              	wimb_Lp:	
+  50  000F  0700        			MOV		A,IAR0
+  51  0010  2000     R  			CALL	I2C_SendByte
+  52  0011  2000     R  			CALL	I2C_GetAck
+  53  0012  3C0A        			SZ		C
+  54  0013  2800     R  			JMP		wimb_Fail
+  55  0014  1481        			INC		MP0					
+  56  0015  1780     R  			SDZ		_MBUF[1]
+  57  0016  2800     R  			JMP		wimb_Lp
+  58  0017              	wimb_Fail:
+  59  0017  2000     R  			CALL	I2C_Stop
+  60  0018  0003        			RET
+  61  0019              _Write_I2C_Multi_Byte	endp			
+  62  0019              
+  63  0019              
+  64  0019              
+  65  0019              ;==========================================================================
+  66  0019              ; input    : mBuf1f[0]=addr. ,mBuf1f[1]=length
+  67  0019              ; output   : mBuf1[9:2]
+  68  0019              ; template : MP0, mTemp1[0], mTemp1[1]
+  69  0019              ;==========================================================================
+  70  0019              public	_Read_I2C_Multi_Byte
+  71  0019              _Read_I2C_Multi_Byte	proc
+  72  0019  2000     R  			CALL	I2C_Start
+  73  001A              			
+  74  001A  0F42        			MOV		A,42h
+  75  001B  2000     R  			CALL	I2C_SendByte
+  76  001C  2000     R  			CALL	I2C_GetAck
+  77  001D  3C0A        			SZ		C
+  78  001E  2800     R  			JMP		rimb_Fail
+  79  001F              			
+  80  001F  0700     R  			MOV		A,_MBUF[0]
+  81  0020  2000     R  			CALL	I2C_SendByte
+  82  0021  2000     R  			CALL	I2C_GetAck
+  83  0022  3C0A        			SZ		C
+  84  0023  2800     R  			JMP		rimb_Fail
+  85  0024              			
+  86  0024  2000     R  			CALL	I2C_Start
+  87  0025              			
+  88  0025  0F43        			MOV		A,43h
+  89  0026  2000     R  			CALL	I2C_SendByte
+  90  0027  2000     R  			CALL	I2C_GetAck
+  91  0028  3C0A        			SZ		C
+  92  0029  2800     R  			JMP		rimb_Fail
+  93  002A              			
+  94  002A  0F00     R  			MOV		A,OFFSET _MBUF[2]
+  95  002B  0081        			MOV		MP0,A									
+  96  002C  0700     R  			MOV		A,_MBUF[1]
+  97  002D  0080     R  			MOV		_MBUF[1],A
+  98  002E              	rimb_Lp:	
+  99  002E  2000     R  			CALL	I2C_GetByte
+ 100  002F  0080        			MOV		IAR0,A
+ 101  0030  1481        			INC		MP0
+"File: BC68F3132_Set.asm  Assembler  Version 2.98      Page 3
+
+ 102  0031  300A        			SET		C
+ 103  0032  1700     R  			SDZA	_MBUF[1]			
+ 104  0033  340A        			CLR		C
+ 105  0034  2000     R  			CALL	I2C_SendAck
+ 106  0035  1780     R  			SDZ		_MBUF[1]	
+ 107  0036  2800     R  			JMP		rimb_Lp
+ 108  0037              			
+ 109  0037              	rimb_Fail:			
+ 110  0037  2000     R  			CALL	I2C_Stop
+ 111  0038  0003        			RET
+ 112  0039              _Read_I2C_Multi_Byte	endp			
+ 113  0039              
+ 114  0039              
+ 115  0039              ;==========================================================================
+ 116  0039              ;I2C_Ini
+ 117  0039              ;==========================================================================
+ 118  0039              public	_I2C_Ini
+ 119  0039              _I2C_Ini		proc
+ 120  0039  3499        			CLR		SCK_DIR
+ 121  003A  3419        			CLR		SDA_DIR
+ 122  003B  3098        			SET		SCK_PORT
+ 123  003C  3418        			CLR		SDA_PORT
+ 124  003D  0003        			ret
+ 125  003E              _I2C_Ini		endp
+ 126  003E              
+ 127  003E              
+ 128  003E              
+ 129  003E              ;==========================================================================
+ 130  003E              ;I2C_XT_Wk
+ 131  003E              ;==========================================================================
+ 132  003E              public	_I2C_XT_Wk
+ 133  003E              _I2C_XT_Wk	proc
+ 134  003E              			SDA_OUT
+ 135  0040              			SDA_HI		
+ 136  0041  2000     R  			CALL	Delay_10us
+ 137  0042              			SDA_LO
+ 138  0043  2000     R  			CALL	Delay_1ms
+ 139  0044  2000     R  			CALL	Delay_1ms
+ 140  0045  2000     R  			CALL	Delay_1ms
+ 141  0046  0003        			RET
+ 142  0047              _I2C_XT_Wk	endp
+ 143  0047              		
+ 144  0047              		
+ 145  0047              		
+ 146  0047              ;==========================================================================
+ 147  0047              ;I2C_SCK_Toggle
+ 148  0047              ;==========================================================================
+ 149  0047              public	_I2C_SCK_Toggle
+ 150  0047              _I2C_SCK_Toggle	proc
+ 151  0047              			SDA_HI
+ 152  0048              		
+ 153  0048              			SCK_HI
+ 154  0049  2000     R  			CALL	Delay_10us
+ 155  004A              			SCK_LO
+ 156  004B  2000     R  			CALL	Delay_10us
+ 157  004C  2000     R  			CALL	Delay_10us
+ 158  004D  2000     R  			CALL	Delay_10us
+ 159  004E              			SCK_HI
+ 160  004F  2000     R  			CALL	Delay_10us
+ 161  0050  0003        			RET
+"File: BC68F3132_Set.asm  Assembler  Version 2.98      Page 4
+
+ 162  0051              _I2C_SCK_Toggle	endp
+ 163  0051              	
+ 164  0051              	
+ 165  0051              		
+ 166  0051              ;==========================================================================
+ 167  0051              ;I2C_SDA_Toggle
+ 168  0051              ;==========================================================================
+ 169  0051              public	_I2C_SDA_Toggle
+ 170  0051              _I2C_SDA_Toggle	proc
+ 171  0051              			SDA_LO
+ 172  0052  2000     R  			CALL	Delay_10us
+ 173  0053              			SDA_HI
+ 174  0054  2000     R  			CALL	Delay_10us
+ 175  0055              			SDA_LO	
+ 176  0056  2000     R  			CALL	Delay_1ms
+ 177  0057  2000     R  			CALL	Delay_1ms
+ 178  0058  2000     R  			CALL	Delay_1ms	
+ 179  0059  0003        			RET
+ 180  005A              _I2C_SDA_Toggle	endp
+ 181  005A              
+ 182  005A              
+ 183  005A              
+ 184  005A              ;==========================================================================
+ 185  005A              ;I2C_Start
+ 186  005A              ;==========================================================================
+ 187  005A              public	I2C_Start
+ 188  005A              I2C_Start	proc
+ 189  005A              			I2C_STR
+ 190  0062  0003        			RET
+ 191  0063              I2C_Start	endp
+ 192  0063              	
+ 193  0063              	
+ 194  0063              				
+ 195  0063              ;==========================================================================
+ 196  0063              ;I2C_Stop
+ 197  0063              ;==========================================================================
+ 198  0063              public	I2C_Stop
+ 199  0063              I2C_Stop	proc
+ 200  0063              			I2C_STP
+ 201  0071  0003        			RET
+ 202  0072              I2C_Stop	endp
+ 203  0072              	
+ 204  0072              	
+ 205  0072              				
+ 206  0072              ;==========================================================================
+ 207  0072              ; Input : ACC=Data
+ 208  0072              ; Template : mTemp1[0]
+ 209  0072              ;==========================================================================
+ 210  0072              public	I2C_SendByte
+ 211  0072              I2C_SendByte	proc
+ 212  0072              			SDA_OUT
+ 213  0074  0080     R  			MOV		mTemp1,A
+ 214  0075  0F08        			MOV		A,08h
+ 215  0076              	isb_Lp:		
+ 216  0076              			SCK_LO
+ 217  0077  1A80     R  			RLC		mTemp1
+ 218  0078  3C0A        			SZ		C
+ 219  0079  2800     R  			JMP		$1
+ 220  007A              			
+ 221  007A              	$0:
+"File: BC68F3132_Set.asm  Assembler  Version 2.98      Page 5
+
+ 222  007A              			SDA_LO
+ 223  007B  2800     R  			JMP		$9			
+ 224  007C              			
+ 225  007C              	$1:		
+ 226  007C              			SDA_HI
+ 227  007D              	
+ 228  007D              	$9:	
+ 229  007D  2800     R  			JMP		$+1
+ 230  007E              			SCK_HI
+ 231  007F              			DELAY
+ 232  0082  1785        			SDZ		ACC
+ 233  0083  2800     R  			JMP		isb_Lp
+ 234  0084              			SCK_LO
+ 235  0085              			SDA_IN			
+ 236  0087  0003        			RET
+ 237  0088              I2C_SendByte	endp
+ 238  0088              
+ 239  0088              
+ 240  0088              
+ 241  0088              ;==========================================================================
+ 242  0088              ; Template : mTemp1[0]
+ 243  0088              ; Output : ACC
+ 244  0088              ;==========================================================================
+ 245  0088              I2C_GetByte	proc
+ 246  0088              			SDA_IN
+ 247  008A  0F08        			MOV		A,08h
+ 248  008B              	igb_Lp:		
+ 249  008B              			SCK_LO
+ 250  008C              			DELAY
+ 251  008F              			
+ 252  008F              			SCK_HI
+ 253  0090  340A        			CLR		C
+ 254  0091              			SZ_SDA
+ 255  0092  300A        			SET		C			
+ 256  0093  1A80     R  			RLC		mTemp1
+ 257  0094              			
+ 258  0094  1785        			SDZ		ACC
+ 259  0095  2800     R  			JMP		igb_Lp
+ 260  0096              			
+ 261  0096              			SCK_LO
+ 262  0097  0700     R  			MOV		A,mTemp1			
+ 263  0098  0003        			RET
+ 264  0099              I2C_GetByte	endp
+ 265  0099              
+ 266  0099              
+ 267  0099              
+ 268  0099              ;==========================================================================
+ 269  0099              ; Input : C
+ 270  0099              ;==========================================================================
+ 271  0099              I2C_SendAck	proc
+ 272  0099              			SDA_OUT
+ 273  009B  3C0A        			SZ		C
+ 274  009C  2800     R  			JMP		$1
+ 275  009D              	$0:
+ 276  009D              			SDA_LO
+ 277  009E  2800     R  			JMP		$9			
+ 278  009F              	$1:				
+ 279  009F              			SDA_HI	
+ 280  00A0              	$9:
+ 281  00A0              			SCK_HI
+"File: BC68F3132_Set.asm  Assembler  Version 2.98      Page 6
+
+ 282  00A1              			DELAY
+ 283  00A4              			SCK_LO
+ 284  00A5  0003        			RET
+ 285  00A6              I2C_SendAck	endp
+ 286  00A6              
+ 287  00A6              
+ 288  00A6              
+ 289  00A6              ;==========================================================================
+ 290  00A6              ; Output : C
+ 291  00A6              ;==========================================================================
+ 292  00A6              I2C_GetAck	proc
+ 293  00A6              			SDA_IN
+ 294  00A8              			SCK_HI
+ 295  00A9              			DELAY
+ 296  00AC  340A        			CLR		C
+ 297  00AD              			SZ_SDA
+ 298  00AE  300A        			SET		C		
+ 299  00AF              			SCK_LO
+ 300  00B0  0003        			RET
+ 301  00B1              I2C_GetAck	endp
+ 302  00B1              
+ 303  00B1              
+ 304  00B1              
+ 305  00B1              ;==========================================================================
+ 306  00B1              ;Delay_10us
+ 307  00B1              ;==========================================================================
+ 308  00B1              public	Delay_10us
+ 309  00B1              Delay_10us	proc
+ 310  00B1  0F04        			MOV		A,4
+ 311  00B2  0000        			NOP
+ 312  00B3  1785        			SDZ		ACC
+ 313  00B4  2800     R  			JMP		$-2
+ 314  00B5  0003        			RET
+ 315  00B6              Delay_10us	endp
+ 316  00B6              
+ 317  00B6              
+ 318  00B6              
+ 319  00B6              ;==========================================================================
+ 320  00B6              ;Delay_100us
+ 321  00B6              ;==========================================================================
+ 322  00B6              public	Delay_100us
+ 323  00B6              Delay_100us	proc
+ 324  00B6  0F31        			MOV		A,49
+ 325  00B7  0000        			NOP
+ 326  00B8  1785        			SDZ		ACC
+ 327  00B9  2800     R  			JMP		$-2
+ 328  00BA  0003        			RET
+ 329  00BB              Delay_100us	endp
+ 330  00BB              
+ 331  00BB              
+ 332  00BB              
+ 333  00BB              ;==========================================================================
+ 334  00BB              ;Delay_1ms
+ 335  00BB              ;==========================================================================
+ 336  00BB              public	Delay_1ms
+ 337  00BB              Delay_1ms	proc
+ 338  00BB  0FA7        			MOV		A,167
+ 339  00BC  1785        			SDZ		ACC
+ 340  00BD  2800     R  			JMP		$-1
+ 341  00BE              			
+"File: BC68F3132_Set.asm  Assembler  Version 2.98      Page 7
+
+ 342  00BE  0FA6        			MOV		A,166
+ 343  00BF  1785        			SDZ		ACC
+ 344  00C0  2800     R  			JMP		$-1
+ 345  00C1              			
+ 346  00C1  0FA6        			MOV		A,166
+ 347  00C2  1785        			SDZ		ACC
+ 348  00C3  2800     R  			JMP		$-1
+ 349  00C4              
+ 350  00C4  0FA6        			MOV		A,166
+ 351  00C5  1785        			SDZ		ACC
+ 352  00C6  2800     R  			JMP		$-1
+ 353  00C7              			
+ 354  00C7  0003        			RET
+ 355  00C8              Delay_1ms	endp
+ 356  00C8              		
+ 357  00C8              	
+ 358  00C8              		
+ 359  00C8              ;==========================================================================
+ 360  00C8              ;CTM0_INIT
+ 361  00C8              ;==========================================================================		
+ 362  00C8                          public    _CTM0_INIT
+ 363  00C8              _CTM0_INIT:
+ 364  00C8  0F00                    MOV     A,00000000B			 
+ 365  00C9  00A8                    MOV     CTM0C0,A
+ 366  00CA  0FC1                    MOV     A,11000001B         ;timer mode/Comparator A match
+ 367  00CB  00A9                    MOV     CTM0C1,A
+ 368  00CC               
+ 369  00CC  0F20                    MOV     A,LOW (DM_SYMBOL_RATE*2)	;update time counter
+ 370  00CD  00AC                    MOV     CTM0AL,A
+ 371  00CE  0F03                    MOV     A,HIGH (DM_SYMBOL_RATE*2)
+ 372  00CF  00AD                    MOV     CTM0AH,A                		            
+ 373  00D0                          
+ 374  00D0  36A4                    CLR     MF0F   
+ 375  00D1  30A4                    SET     MF0E              	;Multi-function 0 Interrupt control
+ 376  00D2  30A6                    SET		CTM0AE	
+ 377  00D3                                            
+ 378  00D3  0003                    RET
+ 379  00D4                    
+ 380  00D4              ;==========================================================================
+ 381  00D4              ;CTM1_INIT
+ 382  00D4              ;==========================================================================		
+ 383  00D4                          public    _CTM1_INIT
+ 384  00D4              _CTM1_INIT:
+ 385  00D4  0F00                    MOV     A,00000000B			
+ 386  00D5  00AE                    MOV     CTM1C0,A
+ 387  00D6  0FC1                    MOV     A,11000001B         ;timer mode/Comparator A match
+ 388  00D7  00AF                    MOV     CTM1C1,A
+ 389  00D8               
+ 390  00D8  0F90                    MOV     A,LOW (DM_SYMBOL_RATE)	;update time counter
+ 391  00D9  00B2                    MOV     CTM1AL,A
+ 392  00DA  0F01                    MOV     A,HIGH (DM_SYMBOL_RATE)
+ 393  00DB  00B3                    MOV     CTM1AH,A                		            
+ 394  00DC                          
+ 395  00DC  3724                    CLR     MF1F   
+ 396  00DD  3124                    SET     MF1E              	;Multi-function 0 Interrupt control
+ 397  00DE  30A7                    SET		CTM1AE	
+ 398  00DF                                           
+ 399  00DF  0003                    RET
+ 400  00E0                    
+ 401  00E0                                      
+"File: BC68F3132_Set.asm  Assembler  Version 2.98      Page 8
+
+ 402  00E0              ;==========================================================================
+ 403  00E0              ;set 10bit or 12bit  discrimination
+ 404  00E0              ;==========================================================================	
+ 405  00E0              			public	_DISC_INIT
+ 406  00E0              _DISC_INIT:	
+ 407  00E0  0F00     R  			MOV		A,low offset _DISC
+ 408  00E1  0081        			MOV		MP0,A
+ 409  00E2              			
+ 410  00E2  0F02        			MOV		A,2
+ 411  00E3  0080     R  			MOV		mTemp1[0],A
+ 412  00E4              			
+ 413  00E4  0FFC        			MOV		A,LOW DISC_CODE
+ 414  00E5  0087        			MOV		TBLP,A
+ 415  00E6  0F07        			MOV		A,HIGH DISC_CODE
+ 416  00E7  0089        			MOV		TBHP,A
+ 417  00E8              	DISC_loop:           
+ 418  00E8  1D00        			TABRD   IAR0
+ 419  00E9  1487        			INC		TBLP			
+ 420  00EA  1481        			INC		MP0          
+ 421  00EB  1780     R  			SDZ		mTemp1
+ 422  00EC  2800     R  			JMP		DISC_loop               
+ 423  00ED  0003                    RET
+ 424  00EE              			
+
+
+        0 Errors, 0 Warnings
